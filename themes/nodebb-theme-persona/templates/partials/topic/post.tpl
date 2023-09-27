@@ -96,6 +96,9 @@
                 <i class="fa fa-chevron-down"></i>
             </a>
             <!-- ENDIF !downvote:disabled -->
+            <a component="post/upvote" href="#" class="<!-- IF posts.upvoted -->upvoted<!-- ENDIF posts.upvoted -->">
+                <i class="good comment"></i>
+            </a>
         </span>
         <!-- ENDIF !reputation:disabled -->
 
