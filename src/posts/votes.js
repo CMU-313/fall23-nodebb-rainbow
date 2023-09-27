@@ -290,4 +290,64 @@ module.exports = function (Posts) {
         }
         await Promise.all(promises);
     }
+    Posts.goodComment = async function (pid, uid) {
+        if (voteInProgress(pid, uid)) {
+            throw new Error('[[error:already-marked-this-post-as-good]]');
+        }
+        putVoteInProgress(pid, uid);
+        try {
+            return await toggleGoodComment(pid, uid);
+        } finally {
+            clearVoteProgress(pid, uid);
+        }
+    };
+    async function toggleGoodComment(pid, uid) {
+        const hasGoodCommented = await Posts.hasGoodCommented(pid, uid);
+        if (hasGoodCommented) {
+            await removeGoodComment(pid, uid);
+            return {
+                goodCommented: false,
+                fromuid: uid,
+                post: await Posts.getPostFields(pid, ['pid', 'uid', 'tid']),
+            };
+        } else {
+            await addGoodComment(pid, uid);
+            return {
+                goodCommented: true,
+                fromuid: uid,
+                post: await Posts.getPostFields(pid, ['pid', 'uid', 'tid']),
+            };
+        }
+    }
+    Posts.hasGoodCommented = async function (pid, uid) {
+        if (parseInt(uid, 10) <= 0) {
+            return false;
+        }
+        return await db.isMemberOfSet(`pid:${pid}:goodComment`, uid);
+    };
+    async function addGoodComment(pid, uid) {
+        uid = parseInt(uid, 10);
+        if (uid <= 0) {
+            throw new Error('[[error:not-logged-in]]');
+        }
+        const now = Date.now();
+        await db.setAdd(`pid:${pid}:goodComment`, uid);
+        await db.sortedSetAdd(`uid:${uid}:goodComment`, now, pid);
+        plugins.hooks.fire(`action:post.goodComment`, {
+            pid: pid,
+            uid: uid
+        });
+    }
+    async function removeGoodComment(pid, uid) {
+        uid = parseInt(uid, 10);
+        if (uid <= 0) {
+            throw new Error('[[error:not-logged-in]]');
+        }
+        await db.setRemove(`pid:${pid}:goodComment`, uid);
+        await db.sortedSetRemove(`uid:${uid}:goodComment`, pid);
+        plugins.hooks.fire(`action:post.removeGoodComment`, {
+            pid: pid,
+            uid: uid
+        });
+    } 
 };
