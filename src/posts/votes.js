@@ -290,5 +290,4 @@ module.exports = function (Posts) {
         }
         await Promise.all(promises);
     }
-    async function toggleGoodComment(pid, uid) {
 };
