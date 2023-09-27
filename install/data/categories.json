@@ -34,5 +34,14 @@
         "color": "#ffffff",
         "icon" : "fa-question",
         "order": 3
+    },
+    {
+        "name": "Questions & Answers",
+        "description": "Got a question? Ask teachers, TAs and other students!",
+        "descriptionParsed": "<p>Got a question? Ask teachers, TAs and other students!</p>\n",
+        "bgColor": "#800080",
+        "color": "#ffffff",
+        "icon" : "fa-hand-paper-o",
+        "order": 5
     }
 ]
