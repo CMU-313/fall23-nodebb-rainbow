@@ -19,6 +19,7 @@
     {{{if useCustomCSS}}}
     <style>{{customCSS}}</style>
     {{{end}}}
+    <script src="/public/src/custom-search.js"></script>
 </head>
 
 <body class="{bodyClass} skin-{{{if bootswatchSkin}}}{bootswatchSkin}{{{else}}}noskin{{{end}}}">
@@ -33,6 +34,13 @@
         <nav class="navbar navbar-default navbar-fixed-top header" id="header-menu" component="navbar">
             <div class="container">
                 <!-- IMPORT partials/menu.tpl -->
+
+                <!-- Search bar 
+                <form action="/search" method="GET" class="search-bar-form navbar-right">
+                    <input type="text" id="search" name="query" placeholder="Search Posts" class="form-control"/>
+                    <button type="submit" class="btn btn-default">Search</button>
+                </form> -->
+
             </div>
         </nav>
         <div class="container" id="content">

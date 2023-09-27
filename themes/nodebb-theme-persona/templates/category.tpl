@@ -8,6 +8,12 @@
     <div class="category <!-- IF widgets.sidebar.length -->col-lg-9 col-sm-12<!-- ELSE -->col-lg-12<!-- ENDIF widgets.sidebar.length -->">
         <!-- IMPORT partials/category/subcategory.tpl -->
 
+        <!-- Search Bar -->
+        <form action="/search" method="get" class="search-bar-form">
+            <input type="text" class="search-bar" name="query" placeholder="search_post" class="form-control"/>
+            <input type="submit" value="Search" class="btn btn-primary"/>
+        </form>
+
         <div class="topic-list-header clearfix">
             <!-- IF privileges.topics:create -->
              <a href="{config.relative_path}/compose?cid={cid}" component="category/post" id="new_topic" class="btn btn-primary" data-ajaxify="false" role="button">[[category:new_topic_button]]</a>
