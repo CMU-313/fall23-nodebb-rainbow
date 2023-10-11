@@ -19,10 +19,15 @@
              <a href="{config.relative_path}/compose?cid={cid}" component="category/post" id="new_topic" class="btn btn-primary" data-ajaxify="false" role="button">[[category:new_topic_button]]</a>
             <div id="test"></div>
             <script>
-                const x = {cid};
+                var x = {cid};
+                console.log(x);
                 if(x == 5){
-                   document.getElementById('new_topic').innerHTML = "New Question"
-                } else {
+                    document.getElementById('new_topic').innerHTML = "New Question"
+                }
+                else if (x == 6){
+                    document.getElementById('new_topic').innerHTML = "New Private Question"
+                }
+                else{
                     document.getElementById('new_topic').innerHTML = "New Topic"
                 }
             </script>
