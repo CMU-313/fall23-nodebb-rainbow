@@ -6,6 +6,9 @@ const winston = require('winston');
 const uploadsController = require('../controllers/uploads');
 const helpers = require('./helpers');
 
+const posts = require('../posts');
+
+
 module.exports = function (app, middleware, controllers) {
     const middlewares = [middleware.authenticateRequest];
     const router = express.Router();
@@ -34,6 +37,21 @@ module.exports = function (app, middleware, controllers) {
     router.get('/topic/teaser/:topic_id', [...middlewares], helpers.tryRoute(controllers.topics.teaser));
     router.get('/topic/pagination/:topic_id', [...middlewares], helpers.tryRoute(controllers.topics.pagination));
 
+    router.get('/posts/search', [...middlewares], async (req, res) => {
+        const keyword = req.query.keyword;
+    
+        if (!keyword) {
+            return res.status(400).send({ error: 'Keyword is required' });
+        }
+    
+        try {
+            const results = await posts.searchPostsByContent(keyword);
+            res.json(results);
+        } catch (error) {
+            res.status(500).send({ error: 'Error searching posts' });
+        }
+    });
+    
     const multipart = require('connect-multiparty');
     const multipartMiddleware = multipart();
     const postMiddlewares = [
