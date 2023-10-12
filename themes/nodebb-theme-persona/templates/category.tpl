@@ -20,7 +20,6 @@
             <div id="test"></div>
             <script>
                 var x = {cid};
-                console.log(x);
                 if(x == 5){
                     document.getElementById('new_topic').innerHTML = "New Question"
                 }
