@@ -39,6 +39,12 @@ groupsController.details = async function (req, res, next) {
         }
     }
     const groupName = await groups.getGroupNameByGroupSlug(req.params.slug);
+//    console.log("GROUPNAME");
+//    console.log(groupName);
+    const filterWords = [groupName]
+//    console.log("filterWords");
+//    console.log(filterWords);
+
     if (!groupName) {
         return next();
     }
@@ -67,6 +73,7 @@ groupsController.details = async function (req, res, next) {
             userListCount: 20,
         }),
         groups.getLatestMemberPosts(groupName, 10, req.uid),
+        //groups.getLatestMemberPostsByGroup(groupName, 10, req.uid, filterWords),
     ]);
     if (!groupData) {
         return next();
