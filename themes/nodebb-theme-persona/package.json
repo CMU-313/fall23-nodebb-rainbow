@@ -37,5 +37,8 @@
   "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/NodeBB/nodebb-theme-persona/issues"
+  },
+  "scripts": {
+    "test": "mocha --exit"
   }
 }

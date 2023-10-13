@@ -9,10 +9,58 @@
         <!-- IMPORT partials/category/subcategory.tpl -->
 
         <!-- Search Bar -->
-        <form action="/search" method="get" class="search-bar-form">
-            <input type="text" class="search-bar" name="query" placeholder="search_post" class="form-control"/>
+        <form onsubmit="return searchPosts();" class="search-bar-form">
+            <input type="text" id="searchInput" name="query" placeholder="search_post" class="form-control"/>
             <input type="submit" value="Search" class="btn btn-primary"/>
         </form>
+        
+        <!-- Container for Search Results -->
+        <div id="searchResultsContainer"></div>
+        
+        <!-- JavaScript for Search -->
+        <script>
+            function searchPosts() {
+                const keyword = document.getElementById('searchInput').value;
+
+                fetch(`/api/posts/search?keyword=${encodeURIComponent(keyword)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (Array.isArray(data)) {
+                            console.log("Fetched data:", data); 
+                            displaySearchResults(data);
+                        } else if (data.posts && Array.isArray(data.posts)) {
+                            displaySearchResults(data.posts);
+                        } else {
+                            console.error("Unexpected data format:", data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error searching posts:", error);
+                    });
+
+                return false; // This will prevent the form from submitting in the traditional way
+            }
+
+            function displaySearchResults(posts) {
+                const container = document.getElementById('searchResultsContainer');
+                container.innerHTML = ''; // Clear previous results
+
+                if (posts.length === 0) {
+                    container.innerHTML = '<p>No posts found for the given keyword.</p>';
+                } else {
+                    // Display the results as before
+                    posts.forEach(post => {
+                        const postElement = document.createElement('div');
+                        postElement.textContent = post.title;
+                        container.appendChild(postElement);
+                    });
+                }
+            }
+
+
+        </script>
+
+
 
         <div class="topic-list-header clearfix">
             <!-- IF privileges.topics:create -->
