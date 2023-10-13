@@ -39,11 +39,11 @@ groupsController.details = async function (req, res, next) {
         }
     }
     const groupName = await groups.getGroupNameByGroupSlug(req.params.slug);
-    console.log("GROUPNAME");
-    console.log(groupName);
+//    console.log("GROUPNAME");
+//    console.log(groupName);
     const filterWords = [groupName]
-    console.log("filterWords");
-    console.log(filterWords);
+//    console.log("filterWords");
+//    console.log(filterWords);
 
     if (!groupName) {
         return next();
