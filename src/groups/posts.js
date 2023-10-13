@@ -12,6 +12,8 @@ module.exports = function (Groups) {
         }
 
         let groupNames = await Groups.getUserGroupMembership('groups:visible:createtime', [postData.uid]);
+        console.log("GROUPNAMES");
+        console.log(groupNames);
         groupNames = groupNames[0];
 
         // Only process those groups that have the cid in its memberPostCids setting (or no setting at all)
@@ -20,6 +22,10 @@ module.exports = function (Groups) {
             !groupData[idx].memberPostCidsArray.length ||
             groupData[idx].memberPostCidsArray.includes(postData.cid)
         ));
+
+
+        console.log("GROUPNAMES AFTER FILTERING");
+        console.log(groupNames);
 
         const keys = groupNames.map(groupName => `group:${groupName}:member:pids`);
         await db.sortedSetsAdd(keys, postData.timestamp, postData.pid);
@@ -40,5 +46,20 @@ module.exports = function (Groups) {
         let pids = await db.getSortedSetRevRange(`group:${groupName}:member:pids`, 0, max - 1);
         pids = await privileges.posts.filter('topics:read', pids, uid);
         return await posts.getPostSummaryByPids(pids, uid, { stripTags: false });
+    };
+
+    Groups.getLatestMemberPostsByGroup = async function (groupName, max, uid, filterWords = []) {
+        let pids = await db.getSortedSetRevRange(`group:${groupName}:member:pids`, 0, max - 1);
+        pids = await privileges.posts.filter('topics:read', pids, uid);
+        let postSummaries = await posts.getPostSummaryByPids(pids, uid, { stripTags: false });
+
+        // Filter posts by the presence of certain words
+        if (filterWords.length > 0) {
+            postSummaries = postSummaries.filter(post =>
+                filterWords.some(word => post.content.includes(word))
+            );
+        }
+
+        return postSummaries;
     };
 };
