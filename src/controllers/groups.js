@@ -72,8 +72,8 @@ groupsController.details = async function (req, res, next) {
             truncateUserList: true,
             userListCount: 20,
         }),
-        //groups.getLatestMemberPosts(groupName, 10, req.uid),
-        groups.getLatestMemberPostsByGroup(groupName, 10, req.uid, filterWords),
+        groups.getLatestMemberPosts(groupName, 10, req.uid),
+        //groups.getLatestMemberPostsByGroup(groupName, 10, req.uid, filterWords),
     ]);
     if (!groupData) {
         return next();
