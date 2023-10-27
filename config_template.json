@@ -1,11 +1,11 @@
 {
-    "url": "https://fall23-nodebb-rainbow-3m2jlbi6za-uc.a.run.app",
+    "url": "",
     "secret": "c5502d62-84a5-41f1-87eb-ee33a76fb7bc",
     "database": "redis",
     "redis": {
-      "host": "gusc1-suitable-snail-30558.upstash.io",
-      "port": "30558",
-      "password": "f0f84175965c476a91d7e95d21bec3e5",
+      "host": "",
+      "port": "",
+      "password": "",
       "database": "0"
     },
     "port": "4567"
