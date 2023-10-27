@@ -24,6 +24,11 @@ ENV NODE_ENV=production \
 
 EXPOSE 4567
 
+CMD test -n "${SETUP}" && ./nodebb setup || node ./nodebb build; node ./nodebb start
+
+- RUN npm install --only=prod && \
++ RUN npm install && \
 RUN chmod +x create_config.sh
 
 CMD  ./create_config.sh -n "${SETUP}" && ./nodebb setup || node ./nodebb build; node ./nodebb start
+
