@@ -101,4 +101,18 @@ Posts.modifyPostByPrivilege = function (post, privileges) {
     }
 };
 
+Posts.searchPostsByContent = async function (keyword) {
+    // Get all post IDs
+    const pids = await db.getSortedSetRange('posts:pid', 0, -1);
+    
+    // Fetch post data
+    let posts = await Posts.getPostsData(pids);
+    
+    // Filter posts by keyword
+    const matchedPosts = posts.filter(post => post.content.includes(keyword));
+
+    return matchedPosts;
+};
+
+
 require('../promisify')(Posts);
