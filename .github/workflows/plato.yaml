@@ -175,10 +175,10 @@ jobs:
           node app --setup="${SETUP}" --ci="${CI}"
 
       - name: Install Plato
-        run: npm run install-plato
+        run: npm install -g plato
 
       - name: Generate Plato Report
-        run: npm run plato
+        run: plato -r -d report src
 
       - name: Upload Plato
         uses: actions/upload-artifact@v2
